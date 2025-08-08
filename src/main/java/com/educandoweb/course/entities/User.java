@@ -1,6 +1,7 @@
 package com.educandoweb.course.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -18,6 +19,7 @@ public class User {
 
     @Id
     @EqualsAndHashCode.Include
+    @GeneratedValue(generator = "UUID")
     private UUID id;
     private String name;
     private String email;
