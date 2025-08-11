@@ -8,24 +8,30 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tb_category")
+@Table(name = "tb_product")
 @NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Category {
+public class Product {
 
     @Id
-    @EqualsAndHashCode.Include
     @GeneratedValue(generator = "UUID")
+    @EqualsAndHashCode.Include
     private UUID id;
     private String name;
+    private String description;
+    private Double price;
+    private String imageUrl;
 
     @Transient
     @Setter(AccessLevel.NONE)
-    private Set<Product> products = new HashSet<>();
+    private Set<Category> categories = new HashSet<>();
 
-    public Category(String name) {
+    public Product(String name, String description, Double price, String imageUrl) {
         this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imageUrl = imageUrl;
     }
 }
