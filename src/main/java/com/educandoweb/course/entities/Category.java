@@ -1,0 +1,26 @@
+package com.educandoweb.course.entities;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.*;
+
+import java.util.UUID;
+
+@Entity
+@Table(name = "tb_category")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Category {
+
+    @Id
+    @EqualsAndHashCode.Include
+    @GeneratedValue(generator = "UUID")
+    private UUID id;
+    private String name;
+
+}
