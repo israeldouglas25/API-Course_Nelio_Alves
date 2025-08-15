@@ -45,4 +45,9 @@ public class Order {
         this.status = status;
         this.user = user;
     }
+
+    public Double getTotal() {
+        return items.stream().mapToDouble(OrderItem::getSubtotal).sum();
+    }
+
 }
