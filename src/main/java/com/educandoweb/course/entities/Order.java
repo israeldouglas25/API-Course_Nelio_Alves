@@ -5,11 +5,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tb_order")
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -30,4 +31,15 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "id.order", cascade = CascadeType.ALL)
+    @Setter(AccessLevel.NONE)
+    private Set<OrderItem> items = new HashSet<>();
+
+    public Order(UUID id, Instant orderDate, OrderStatus status, User user) {
+        this.id = id;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.user = user;
+    }
 }
