@@ -28,4 +28,26 @@ public class UserService {
     public ResponseEntity<User> save(User user) {
         return ResponseEntity.ok(userRepository.save(user));
     }
+
+    public ResponseEntity<Void> delete(UUID id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<User> update(UUID id, User userDetails) {
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setName(userDetails.getName() != null ? userDetails.getName() : user.getName());
+                    user.setEmail(userDetails.getEmail() != null ? userDetails.getEmail() : user.getEmail());
+                    user.setPhone(userDetails.getPhone() != null ? userDetails.getPhone() : user.getPhone());
+                    user.setPassword(userDetails.getPassword() != null ? userDetails.getPassword() : user.getPassword());
+                    User updatedUser = userRepository.save(user);
+                    return ResponseEntity.ok(updatedUser);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
