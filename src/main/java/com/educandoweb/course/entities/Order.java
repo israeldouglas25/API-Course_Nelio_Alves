@@ -36,6 +36,9 @@ public class Order {
     @Setter(AccessLevel.NONE)
     private Set<OrderItem> items = new HashSet<>();
 
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
+
     public Order(UUID id, Instant orderDate, OrderStatus status, User user) {
         this.id = id;
         this.orderDate = orderDate;
