@@ -1,5 +1,6 @@
 package com.educandoweb.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,10 +32,24 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
+    @OneToMany(mappedBy = "id.product")
+    @Setter(AccessLevel.NONE)
+    @JsonIgnore
+    private Set<OrderItem> items = new HashSet<>();
+
     public Product(String name, String description, Double price, String imageUrl) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.imageUrl = imageUrl;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> orders = new HashSet<>();
+        for (OrderItem item : items) {
+            orders.add(item.getOrder());
+        }
+        return orders;
     }
 }
