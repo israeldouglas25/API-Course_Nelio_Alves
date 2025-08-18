@@ -6,6 +6,7 @@ import com.educandoweb.course.exceptions.ForbiddenException;
 import com.educandoweb.course.exceptions.NotFoundException;
 import com.educandoweb.course.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +40,12 @@ public class UserService {
         if (!userRepository.existsById(id)) {
             throw new NotFoundException("User not found with id: " + id);
         }
-        if (id.equals(UUID.fromString("11111111-1111-1111-1111-111111111111"))) {
-            throw new ForbiddenException("Cannot delete the default admin user");
+        try {
+            userRepository.deleteById(id);
+        } catch (DataIntegrityViolationException de) {
+            throw new ConflictException(de.getMessage());
         }
+
         return ResponseEntity.noContent().build();
     }
 
