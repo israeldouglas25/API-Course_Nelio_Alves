@@ -16,8 +16,8 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public List<Order> findAll() {
-        return orderRepository.findAll();
+    public ResponseEntity<List<Order>> findAll() {
+        return ResponseEntity.ok(orderRepository.findAll());
     }
 
     public ResponseEntity<Order> findById(UUID id) {
