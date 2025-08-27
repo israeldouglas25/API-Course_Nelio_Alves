@@ -1,6 +1,7 @@
 package com.educandoweb.course.services;
 
 import com.educandoweb.course.entities.Product;
+import com.educandoweb.course.exceptions.NotFoundException;
 import com.educandoweb.course.interfaces.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,6 @@ public class ProductService {
     public ResponseEntity<Product> findById(UUID id) {
         return productRepository.findById(id)
                 .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new NotFoundException("Product not found with id: " + id));
     }
 }
