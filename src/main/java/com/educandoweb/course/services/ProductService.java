@@ -1,9 +1,11 @@
 package com.educandoweb.course.services;
 
 import com.educandoweb.course.entities.Product;
+import com.educandoweb.course.exceptions.ConflictException;
 import com.educandoweb.course.exceptions.NotFoundException;
 import com.educandoweb.course.interfaces.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,17 @@ public class ProductService {
 
     public ResponseEntity<Product> save(Product product) {
         return ResponseEntity.ok(productRepository.save(product));
+    }
+
+    public ResponseEntity<Void> delete(UUID id) {
+        if (!productRepository.existsById(id)) {
+            throw new NotFoundException("Product not found with id: " + id);
+        }
+        try {
+            productRepository.deleteById(id);
+        } catch (DataIntegrityViolationException de) {
+            throw new ConflictException(de.getMessage());
+        }
+        return ResponseEntity.noContent().build();
     }
 }

@@ -33,4 +33,10 @@ public class ProductController {
         return ResponseEntity.created(uri)
                 .body(productService.save(product).getBody());
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        productService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
