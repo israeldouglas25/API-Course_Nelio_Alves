@@ -44,6 +44,14 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public Product(String name, String description, Double price, String imageUrl, Set<Category> categories) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.categories = categories;
+    }
+
     @JsonIgnore
     public Set<Order> getOrders() {
         Set<Order> orders = new HashSet<>();

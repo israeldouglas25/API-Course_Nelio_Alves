@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.CacheRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,5 +25,9 @@ public class ProductService {
         return productRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new NotFoundException("Product not found with id: " + id));
+    }
+
+    public ResponseEntity<Product> save(Product product) {
+        return ResponseEntity.ok(productRepository.save(product));
     }
 }

@@ -4,11 +4,9 @@ import com.educandoweb.course.entities.Product;
 import com.educandoweb.course.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,5 +25,12 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> findById(@PathVariable UUID id) {
         return productService.findById(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<Product> save(@RequestBody Product product) {
+        URI uri = URI.create("/products/" + product.getId());
+        return ResponseEntity.created(uri)
+                .body(productService.save(product).getBody());
     }
 }
