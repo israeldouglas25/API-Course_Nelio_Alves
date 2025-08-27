@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +18,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<Product>> findAll() {
-        return ResponseEntity.ok(productService.findAll());
+        return productService.findAll();
     }
 
     @GetMapping("/{id}")
@@ -29,19 +28,16 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> save(@RequestBody Product product) {
-        URI uri = URI.create("/products/" + product.getId());
-        return ResponseEntity.created(uri)
-                .body(productService.save(product).getBody());
+        return productService.save(product);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        productService.delete(id);
-        return ResponseEntity.noContent().build();
+        return productService.delete(id);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable UUID id, @RequestBody Product productDetails) {
-        return ResponseEntity.ok(productService.update(id, productDetails)).getBody();
+        return productService.update(id, productDetails);
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.net.CacheRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,8 +18,8 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public ResponseEntity<List<Product>> findAll() {
+        return ResponseEntity.ok(productRepository.findAll());
     }
 
     public ResponseEntity<Product> findById(UUID id) {
