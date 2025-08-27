@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,29 +18,26 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> findAll() {
-        return ResponseEntity.ok(userService.findAll().getBody());
+        return userService.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<User> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(userService.findById(id).getBody());
+        return userService.findById(id);
     }
 
     @PostMapping
     public ResponseEntity<User> save(@RequestBody User user) {
-        URI uri = URI.create("/users/" + user.getId());
-        return ResponseEntity.created(uri)
-                .body(userService.save(user).getBody());
+        return userService.save(user);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        userService.delete(id);
-        return ResponseEntity.noContent().build();
+        return userService.delete(id);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable UUID id, @RequestBody User userDetails) {
-        return ResponseEntity.ok(userService.update(id, userDetails)).getBody();
+        return userService.update(id, userDetails);
     }
 }

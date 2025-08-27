@@ -2,7 +2,6 @@ package com.educandoweb.course.services;
 
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.exceptions.ConflictException;
-import com.educandoweb.course.exceptions.ForbiddenException;
 import com.educandoweb.course.exceptions.NotFoundException;
 import com.educandoweb.course.interfaces.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +33,8 @@ public class UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new ConflictException("Email already in use: " + user.getEmail());
         }
-        return ResponseEntity.ok(userRepository.save(user));
+        URI uri = URI.create("/users/" + user.getId());
+        return ResponseEntity.created(uri).body(userRepository.save(user));
     }
 
     public ResponseEntity<Void> delete(UUID id) {
